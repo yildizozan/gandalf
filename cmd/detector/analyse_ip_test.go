@@ -9,6 +9,7 @@ func TestAnalyseIp(t *testing.T) {
 
 	whitelist := []string{
 		"127.0.0.1",
+		"10.0.0.1",
 	}
 	blacklist := []string{
 		"192.168.1.0",
