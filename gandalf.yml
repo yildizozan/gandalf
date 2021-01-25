@@ -1,0 +1,18 @@
+version: "0.1"
+app:
+  name: "myapp"
+  host: "localhost:3000"
+  rules:
+    path:
+      prefix: "/admin"
+      exact: "/admin"
+      match: "/admin"
+    ip:
+      whitelist:
+        - "192.168.1.1"
+      blacklist:
+        - "192.168.1.1"
+        - "192.168.1.2"
+    header:
+      "Referrer": "facebook.com"
+      "X-Special-Arr": "Malware"

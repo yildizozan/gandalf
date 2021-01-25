@@ -21,11 +21,15 @@ type Rules struct {
 
 type App struct {
 	Name string
-	Port int16
+	Host string
 	Rules
 }
 
-type MyConfig struct {
+type Config struct {
 	Version string
 	App
+}
+
+func Init() {
+
 }
