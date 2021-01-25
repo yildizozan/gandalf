@@ -2,8 +2,23 @@ package detector
 
 import (
 	"fmt"
+	"github.com/spf13/viper"
+	"github.com/yildizozan/gandalf/cmd/config"
 	"net/http"
 )
+
+var ruleIp = config.Ip{
+	Whitelist: viper.GetStringSlice("app.rules.ip.whitelist"),
+	Blacklist: viper.GetStringSlice("app.rules.ip.blacklist"),
+}
+
+var ruleHeader config.Header = viper.GetStringMapStringSlice("app.rules.header")
+
+var rulePath = config.Path{
+	Prefix: viper.GetString("app.rules.path"),
+	Exact:  viper.GetString("app.rules.path.exact"),
+	Match:  viper.GetString("app.rules.path.match"),
+}
 
 func Analyse(req *http.Request) bool {
 
@@ -13,9 +28,9 @@ func Analyse(req *http.Request) bool {
 	chanPath := make(chan bool)
 
 	go analyseRawQuery(req.URL.RawQuery, chanQuery)
-	go analyseHeaders(req.Header, chanHeader)
-	go analyseIp(&req.RemoteAddr, chanIp)
-	go analysePath(req.URL.Path, chanPath)
+	go analyseHeaders(&ruleHeader, &req.Header, chanHeader)
+	go analyseIp(&ruleIp, &req.RemoteAddr, chanIp)
+	go analysePath(&rulePath, &req.URL.Path, chanPath)
 
 	query, header, ip, path := <-chanQuery, <-chanHeader, <-chanIp, <-chanPath
 	fmt.Println("query\t", query)
