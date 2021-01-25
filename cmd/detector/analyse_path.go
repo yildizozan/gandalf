@@ -1,18 +1,15 @@
 package detector
 
 import (
-	"github.com/spf13/viper"
+	"github.com/yildizozan/gandalf/cmd/config"
 	"regexp"
 	"strings"
 )
 
-func analysePath(path string, ch chan bool) {
-	prefix := viper.GetString("app.rules.path.prefix")
-	exact := viper.GetString("app.rules.path.exact")
-	match := viper.GetString("app.rules.path.match")
+func analysePath(rules *config.Path, path *string, ch chan bool) {
 
-	if len(prefix) != 0 {
-		result := strings.HasPrefix(path, prefix)
+	if len(rules.Prefix) != 0 {
+		result := strings.HasPrefix(*path, rules.Prefix)
 		if result {
 			ch <- true
 			return
@@ -20,15 +17,15 @@ func analysePath(path string, ch chan bool) {
 
 	}
 
-	if len(exact) != 0 {
-		if regex(path, regexp.QuoteMeta(match)) {
+	if len(rules.Match) != 0 {
+		if regex(*path, regexp.QuoteMeta(rules.Match)) {
 			ch <- true
 			return
 		}
 	}
 
-	if len(match) != 0 {
-		if strings.TrimRight(path, "\n") == exact {
+	if len(rules.Exact) != 0 {
+		if strings.TrimRight(*path, "\n") == rules.Exact {
 			ch <- true
 			return
 		}

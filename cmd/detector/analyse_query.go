@@ -4,13 +4,13 @@ import "regexp"
 
 const model = `(?i)(\%27)|(\')|(\-\-)|(\%23)|(\#)`
 
-func analyseRawQuery(uri string, c chan bool) {
+func analyseRawQuery(uri string, channel chan bool) {
 	var re = regexp.MustCompile(model)
 
 	if len(re.FindStringIndex(uri)) > 0 {
-		c <- true
+		channel <- true
 		return
 	}
 
-	c <- false
+	channel <- false
 }
