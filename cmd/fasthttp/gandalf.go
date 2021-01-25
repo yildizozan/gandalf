@@ -2,16 +2,12 @@ package main
 
 import (
 	"bufio"
-	"fmt"
 	"github.com/valyala/fasthttp"
-	"github.com/yildizozan/gandalf/cmd/config"
-	"github.com/yildizozan/gandalf/cmd/detector"
 	"github.com/yildizozan/gandalf/cmd/log"
 	"github.com/yildizozan/gandalf/cmd/metrics"
 	"os"
 )
 
-var configFile config.Configurations
 var rules []string
 
 var proxyClient = &fasthttp.HostClient{
@@ -21,16 +17,16 @@ var proxyClient = &fasthttp.HostClient{
 
 func ReverseProxyHandler(ctx *fasthttp.RequestCtx) {
 	metrics.HttpRequestsTotal.WithLabelValues("http", "200").Inc()
-
-	// Detector
-	result := detector.analyseRawQuery(ctx.URI().QueryArgs().String())
-	if result {
-		metrics.HttpRequestsTotalVulnerable.WithLabelValues("http", "400").Inc()
-		ctx.SetStatusCode(fasthttp.StatusBadRequest)
-		ctx.SetBody([]byte("You shall not pass! - Gandalf"))
-		return
-	}
-
+	/*
+		// Detector
+		result := detector.analyseRawQuery(ctx.URI().QueryArgs().String())
+		if result {
+			metrics.HttpRequestsTotalVulnerable.WithLabelValues("http", "400").Inc()
+			ctx.SetStatusCode(fasthttp.StatusBadRequest)
+			ctx.SetBody([]byte("You shall not pass! - Gandalf"))
+			return
+		}
+	*/
 	req := &ctx.Request
 	res := &ctx.Response
 	prepareRequest(req)
@@ -57,9 +53,6 @@ func postprocessResponse(resp *fasthttp.Response) {
 }
 
 func main() {
-	var c config.Configurations
-	configFile = *c.GetConf()
-	fmt.Println(*c.GetConf())
 
 	file, err := os.Open("rules.txt")
 	if err != nil {

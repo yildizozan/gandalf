@@ -8,8 +8,6 @@ require (
 	github.com/klauspost/compress v1.11.6 // indirect
 	github.com/magiconair/properties v1.8.4 // indirect
 	github.com/mitchellh/mapstructure v1.4.1 // indirect
-	github.com/mumax/3 v3.9.3+incompatible // indirect
-	github.com/pelletier/go-toml v1.8.1 // indirect
 	github.com/prometheus/client_golang v1.9.0
 	github.com/spf13/afero v1.5.1 // indirect
 	github.com/spf13/cast v1.3.1 // indirect
