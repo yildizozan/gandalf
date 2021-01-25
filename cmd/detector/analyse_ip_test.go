@@ -36,7 +36,7 @@ func TestAnalyseIp(t *testing.T) {
 		name string
 		args args
 	}{
-		{"Valid ip", args{&rules, &validIp, channel}},
+		{"Valid IP", args{&rules, &validIp, channel}},
 	}
 	for _, tt := range tests {
 		go analyseIp(tt.args.rules, tt.args.remoteAddr, tt.args.channel)
@@ -52,7 +52,7 @@ func TestAnalyseIp(t *testing.T) {
 		name string
 		args args
 	}{
-		{"Unalid ip", args{&rules, &unvalidIp, channel}},
+		{"NotValid IP", args{&rules, &unvalidIp, channel}},
 	}
 	for _, tt := range tests {
 		go analyseIp(tt.args.rules, tt.args.remoteAddr, tt.args.channel)
