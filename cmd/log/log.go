@@ -1,15 +1,17 @@
 package log
 
-import "log"
+import (
+	"log"
+)
 
-func Warning(message string) {
-	log.Printf("[Warning]\t%s\n", message)
+func Warning(format string, v ...interface{}) {
+	log.Printf(format, v)
 }
 
-func Error(message string) {
-	log.Fatalf("[Error]\t%s\n", message)
+func Error(format string, v ...interface{}) {
+	log.Fatalf(format, v)
 }
 
-func Log(message string) {
-	log.Printf("[Log]\t%s", message)
+func Log(format string, v ...interface{}) {
+	log.Printf(format, v)
 }
