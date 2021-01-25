@@ -7,6 +7,38 @@ import (
 	"io/ioutil"
 )
 
+type Path struct {
+	Prefix string
+	Exact  string
+	Match  string
+}
+
+type Header map[string][]string
+
+type Ip struct {
+	Whitelist []string
+	Blacklist []string
+}
+
+type Rules struct {
+	Ip
+	Header
+	Path
+}
+
+type App struct {
+	Name string
+	Port int16
+	Rules
+}
+
+type MyConfig struct {
+	Version string
+	App
+}
+
+/////////////////////////////
+
 type Uri struct {
 	Exact  string
 	Prefix string
@@ -53,9 +85,9 @@ type Config struct {
 
 func (c *Configurations) GetConf() *Configurations {
 	var err error
-	yamlFile, err := ioutil.ReadFile("gandalf.yml")
+	yamlFile, err := ioutil.ReadFile("nethttp.yml")
 	if err != nil {
-		message := fmt.Sprintf("gandalf.yml err   #%v \n", err)
+		message := fmt.Sprintf("nethttp.yml err   #%v \n", err)
 		log.Error(message)
 	}
 	err = yaml.Unmarshal(yamlFile, c)
