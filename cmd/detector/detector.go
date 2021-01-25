@@ -2,32 +2,26 @@ package detector
 
 import (
 	"fmt"
-	"regexp"
+	"net/http"
 )
 
-func Analyse(uri map[string][]string) bool {
-	var re = regexp.MustCompile(`(?m)['"]`)
+func Analyse(req *http.Request) bool {
 
-	for key, values := range uri {
-		fmt.Println("Key:", key, "Value:", values)
-		for _, value := range values {
-			for i, match := range re.FindAllString(value, -1) {
-				fmt.Println(match, "found at index", i)
-				return true
-			}
-		}
+	chanQuery := make(chan bool)
+	chanHeader := make(chan bool)
+	chanIp := make(chan bool)
+	chanPath := make(chan bool)
 
-	}
+	go analyseRawQuery(req.URL.RawQuery, chanQuery)
+	go analyseHeaders(req.Header, chanHeader)
+	go analyseIp(&req.RemoteAddr, chanIp)
+	go analysePath(req.URL.Path, chanPath)
 
-	return false
-}
+	query, header, ip, path := <-chanQuery, <-chanHeader, <-chanIp, <-chanPath
+	fmt.Println("query\t", query)
+	fmt.Println("header\t", header)
+	fmt.Println("ip\t", ip)
+	fmt.Println("path\t", path)
 
-func AnalyseRawQuery(uri string) bool {
-	var re = regexp.MustCompile(`(?i)(\%27)|(\')|(\-\-)|(\%23)|(\#)`)
-
-	if len(re.FindStringIndex(uri)) > 0 {
-		return true
-	}
-
-	return false
+	return query || header || ip || path
 }
