@@ -2,15 +2,12 @@ package main
 
 import (
 	"bufio"
-	"fmt"
 	"github.com/valyala/fasthttp"
-	"github.com/yildizozan/gandalf/cmd/config"
 	"github.com/yildizozan/gandalf/cmd/log"
 	"github.com/yildizozan/gandalf/cmd/metrics"
 	"os"
 )
 
-var configFile config.Configurations
 var rules []string
 
 var proxyClient = &fasthttp.HostClient{
@@ -56,9 +53,6 @@ func postprocessResponse(resp *fasthttp.Response) {
 }
 
 func main() {
-	var c config.Configurations
-	configFile = *c.GetConf()
-	fmt.Println(*c.GetConf())
 
 	file, err := os.Open("rules.txt")
 	if err != nil {
