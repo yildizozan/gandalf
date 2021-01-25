@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func Test_analyseIp(t *testing.T) {
+func TestAnalyseIp(t *testing.T) {
 
 	whitelist := []string{
 		"127.0.0.1",

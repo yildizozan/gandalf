@@ -2,7 +2,7 @@ package detector
 
 import "testing"
 
-func Test_regex(t *testing.T) {
+func TestRegex(t *testing.T) {
 	const model = `(?i)(\%27)|(\')|(\-\-)|(\%23)|(\#)`
 
 	type args struct {

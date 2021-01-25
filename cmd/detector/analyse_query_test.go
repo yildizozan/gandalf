@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func Test_analyseRawQuery(t *testing.T) {
+func TestAnalyseRawQuery(t *testing.T) {
 	channel := make(chan bool)
 	type args struct {
 		uri     string
