@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	v2 "github.com/yildizozan/gandalf/cmd/config/v2"
+	config "github.com/yildizozan/gandalf/cmd/config/v2"
 	"github.com/yildizozan/gandalf/cmd/fasthttp"
 	"github.com/yildizozan/gandalf/cmd/nethttp"
 	"os"
@@ -77,7 +77,7 @@ func init() {
 		os.Exit(1)
 	}
 
-	var configuration v2.Config
+	var configuration config.Config
 
 	err := viper.Unmarshal(&configuration)
 	if err != nil {
