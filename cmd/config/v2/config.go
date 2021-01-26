@@ -1,5 +1,11 @@
 package v2
 
+type Logger struct {
+	loki     string
+	fluentd  string
+	logstash string
+}
+
 type Path struct {
 	Prefix string
 	Exact  string
@@ -20,9 +26,9 @@ type Rules struct {
 }
 
 type App struct {
-	Name   string
-	Host   string
-	Logger string
+	Name string
+	Host string
+	Logger
 	Rules
 }
 
