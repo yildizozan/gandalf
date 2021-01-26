@@ -1,7 +1,7 @@
 package detector
 
 import (
-	"github.com/yildizozan/gandalf/cmd/config"
+	"github.com/yildizozan/gandalf/cmd/config/v1"
 	"testing"
 )
 
@@ -18,7 +18,7 @@ func TestAnalyseIp(t *testing.T) {
 		"192.168.1.3",
 	}
 
-	rules := config.Ip{
+	rules := v1.Ip{
 		Whitelist: whitelist,
 		Blacklist: blacklist,
 	}
@@ -29,7 +29,7 @@ func TestAnalyseIp(t *testing.T) {
 	channel := make(chan bool)
 
 	type args struct {
-		rules      *config.Ip
+		rules      *v1.Ip
 		remoteAddr *string
 		channel    chan bool
 	}

@@ -3,7 +3,7 @@ package detector
 import (
 	"fmt"
 	"github.com/spf13/viper"
-	"github.com/yildizozan/gandalf/cmd/config"
+	config "github.com/yildizozan/gandalf/cmd/config/v2"
 	"net/http"
 )
 
@@ -28,15 +28,14 @@ func Analyse(req *http.Request) bool {
 	chanPath := make(chan bool)
 
 	go analyseRawQuery(req.URL.RawQuery, chanQuery)
-	go analyseHeaders(&ruleHeader, &req.Header, chanHeader)
+	go analyseHeaders(&req.Header, chanHeader)
 	go analyseIp(&ruleIp, &req.RemoteAddr, chanIp)
 	go analysePath(&rulePath, &req.URL.Path, chanPath)
 
 	query, header, ip, path := <-chanQuery, <-chanHeader, <-chanIp, <-chanPath
-	fmt.Println("query\t", query)
-	fmt.Println("header\t", header)
-	fmt.Println("ip\t", ip)
-	fmt.Println("path\t", path)
+	if viper.GetBool("verbose") {
+		fmt.Printf("App: %s, Query: %t, Header: %t, IP: %t, Path %t\n", viper.GetString("app.name"), query, header, ip, path)
+	}
 
 	return query || header || ip || path
 }

@@ -1,4 +1,4 @@
-package config
+package v1
 
 type Path struct {
 	Prefix string
@@ -28,8 +28,4 @@ type App struct {
 type Config struct {
 	Version string
 	App
-}
-
-func Init() {
-
 }

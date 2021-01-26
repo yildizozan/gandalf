@@ -1,7 +1,7 @@
 package detector
 
 import (
-	"github.com/yildizozan/gandalf/cmd/config"
+	config "github.com/yildizozan/gandalf/cmd/config/v2"
 	"regexp"
 	"strings"
 )
