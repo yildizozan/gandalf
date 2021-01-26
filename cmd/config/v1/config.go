@@ -1,31 +1,42 @@
 package v1
 
-type Path struct {
-	Prefix string
-	Exact  string
-	Match  string
+import (
+	"fmt"
+	"github.com/prometheus/common/log"
+	"gopkg.in/yaml.v3"
+	"io/ioutil"
+)
+
+type Configurations struct {
+	Version string `yaml:"version"`
+	Spec    struct {
+		Hosts []string `yaml:"hosts"`
+		Http  []struct {
+			Name  string `yaml:"name"`
+			Match []struct {
+				Uri struct {
+					Exact  string `yaml:"exact"`
+					Prefix string `yaml:"prefix"`
+				} `yaml:"uri"`
+				Host string `yaml:"host"`
+			} `yaml:"match"`
+			Destination string `yaml:"destination"`
+		} `yaml:"http"`
+	} `yaml:"spec"`
 }
 
-type Header map[string][]string
+func (c *Configurations) GetConf() *Configurations {
+	var err error
+	yamlFile, err := ioutil.ReadFile("nethttp.yml")
+	if err != nil {
+		message := fmt.Sprintf("nethttp.yml err   #%v \n", err)
+		log.Error(message)
+	}
+	err = yaml.Unmarshal(yamlFile, c)
+	if err != nil {
+		message := fmt.Sprintf("Unmarshal: %v\n", err)
+		log.Error(message)
+	}
 
-type Ip struct {
-	Whitelist []string
-	Blacklist []string
-}
-
-type Rules struct {
-	Ip
-	Header
-	Path
-}
-
-type App struct {
-	Name string
-	Host string
-	Rules
-}
-
-type Config struct {
-	Version string
-	App
+	return c
 }
