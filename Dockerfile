@@ -17,9 +17,6 @@ RUN go get -d -v ./...
 # Build the application
 RUN go build -o /go/bin/gandalf
 
-RUN ls -lah /go/bin/
-RUN ls -lah /go/src/github.com/yildizozan/gandalf/entrypoint.sh
-
 # Build a small image
 #FROM gcr.io/distroless/base
 FROM alpine
@@ -28,5 +25,4 @@ COPY --from=builder /go/bin/gandalf /
 COPY --from=builder /go/src/github.com/yildizozan/gandalf/entrypoint.sh /
 
 # Command to run
-#ENTRYPOINT ["/entrypoint.sh"]
-CMD ["/gandalf"]
+ENTRYPOINT [ "/gandalf" ]
