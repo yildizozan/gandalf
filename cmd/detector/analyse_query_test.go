@@ -23,7 +23,7 @@ func TestAnalyseRawQuery(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		go analyseRawQuery(tt.args.uri, tt.args.channel)
+		go analyseSQLInjection(tt.args.uri, tt.args.channel)
 		t.Run(tt.name, func(t *testing.T) {
 			result := <-channel
 			if result {
@@ -45,7 +45,7 @@ func TestAnalyseRawQuery(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		go analyseRawQuery(tt.args.uri, tt.args.channel)
+		go analyseSQLInjection(tt.args.uri, tt.args.channel)
 		t.Run(tt.name, func(t *testing.T) {
 			result := <-channel
 			if !result {

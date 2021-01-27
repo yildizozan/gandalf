@@ -1,16 +1,14 @@
 package detector
 
 import (
-	"github.com/spf13/viper"
+	config "github.com/yildizozan/gandalf/cmd/config/v2"
 	"net/http"
 	"strings"
 )
 
-func analyseHeaders(header *http.Header, c chan bool) {
-	rules := viper.GetStringMapStringSlice("app.rules.header")
-	//fmt.Println(len(*header), len(rules))
+func analyseHeaders(rules *config.Header, header *http.Header, c chan bool) {
 	for k, _ := range *header {
-		for rk, _ := range rules {
+		for rk, _ := range *rules {
 			if strings.ToLower(k) == strings.ToLower(rk) {
 				c <- true
 				return
