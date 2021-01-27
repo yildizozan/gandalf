@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	config "github.com/yildizozan/gandalf/cmd/config/v2"
+	v2 "github.com/yildizozan/gandalf/cmd/config/v2"
 	"github.com/yildizozan/gandalf/cmd/fasthttp"
 	"github.com/yildizozan/gandalf/cmd/nethttp"
 	"os"
@@ -16,7 +16,7 @@ var cmdRoot = &cobra.Command{
 	Use:   "gandalf",
 	Short: "Gandalf is web application firewall",
 	Run: func(cmd *cobra.Command, args []string) {
-
+		nethttp.Start()
 	},
 }
 
@@ -77,9 +77,7 @@ func init() {
 		os.Exit(1)
 	}
 
-	var configuration config.Config
-
-	err := viper.Unmarshal(&configuration)
+	err := viper.Unmarshal(&v2.Config)
 	if err != nil {
 		fmt.Printf("Unable to decode into struct, %v", err)
 	}
@@ -91,7 +89,7 @@ func init() {
 	//fmt.Println("Host is\t", configuration.App.Host)
 	//fmt.Println("Log is\t", configuration.App.Logger)
 	//fmt.Println("Rules is\t", configuration.App.Rules)
-	//fmt.Println("Header is\t", configuration.App.Rules.Header)
+	//fmt.Println("Header is\t", detector.Config.App.Rules.Header)
 	//fmt.Println("Ip is\t", configuration.App.Rules.Ip)
 	//fmt.Println("Path is\t", configuration.App.Rules.Path)
 	//fmt.Println("Http is\t", configuration.Spec.Http)
