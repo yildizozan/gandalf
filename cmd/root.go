@@ -15,9 +15,9 @@ var flagVerbose bool
 var cmdRoot = &cobra.Command{
 	Use:   "gandalf",
 	Short: "Gandalf is web application firewall",
-	Run: func(cmd *cobra.Command, args []string) {
-		nethttp.Start()
-	},
+	//Run: func(cmd *cobra.Command, args []string) {
+	//	nethttp.Start()
+	//},
 }
 
 var cmdNetHttp = &cobra.Command{
