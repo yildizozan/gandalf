@@ -2,7 +2,6 @@ package proxy
 
 import (
 	"github.com/spf13/viper"
-	config "github.com/yildizozan/gandalf/cmd/config/v2"
 	"github.com/yildizozan/gandalf/cmd/detector"
 	"github.com/yildizozan/gandalf/cmd/logger"
 	"github.com/yildizozan/gandalf/cmd/metrics"
@@ -11,11 +10,6 @@ import (
 )
 
 var Proxy *httputil.ReverseProxy
-
-var conf = config.App{
-	Name: viper.GetString("app.name"),
-	Host: viper.GetString("app.host"),
-}
 
 func Handler(res http.ResponseWriter, req *http.Request) {
 	metrics.HttpRequestsTotal.WithLabelValues(viper.GetString("app.name"), "http", "200").Inc()
