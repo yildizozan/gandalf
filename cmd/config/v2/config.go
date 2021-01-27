@@ -1,5 +1,8 @@
 package v2
 
+// Parsed and filled with data by Viper.
+var Config Configuration
+
 type Logger struct {
 	loki     string
 	fluentd  string
@@ -12,7 +15,7 @@ type Path struct {
 	Match  string
 }
 
-type Header map[string][]string
+type Header map[string]string
 
 type Ip struct {
 	Whitelist []string
@@ -32,7 +35,7 @@ type App struct {
 	Rules
 }
 
-type Config struct {
+type Configuration struct {
 	Version string
 	App
 }
