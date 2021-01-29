@@ -1,0 +1,21 @@
+version: "0.1"
+app:
+  name: "service A"
+  host: "https://test-service-ofjqk4ohpq-ez.a.run.app:443"
+#  host: "http://localhost:3000"
+  logger:
+    loki: "https://loki-ofjqk4ohpq-ez.a.run.app/loki/api/v1/push"
+  rules:
+    path:
+      prefix: "/admin"
+      exact: "/admin"
+      match: "/admin"
+    ip:
+      whitelist:
+        - "192.168.1.1"
+      blacklist:
+        - "192.168.1.1"
+        - "192.168.1.2"
+    header:
+      "Referrer": "facebook.com"
+      "X-Special-Val": "Malware"

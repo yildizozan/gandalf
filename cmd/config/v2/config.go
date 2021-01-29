@@ -1,4 +1,13 @@
-package config
+package v2
+
+// Parsed and filled with data by Viper.
+var Config Configuration
+
+type Logger struct {
+	loki     string
+	fluentd  string
+	logstash string
+}
 
 type Path struct {
 	Prefix string
@@ -6,7 +15,7 @@ type Path struct {
 	Match  string
 }
 
-type Header map[string][]string
+type Header map[string]string
 
 type Ip struct {
 	Whitelist []string
@@ -21,11 +30,12 @@ type Rules struct {
 
 type App struct {
 	Name string
-	Port int16
+	Host string
+	Logger
 	Rules
 }
 
-type MyConfig struct {
+type Configuration struct {
 	Version string
 	App
 }

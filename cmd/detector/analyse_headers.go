@@ -1,24 +1,17 @@
 package detector
 
 import (
-	"fmt"
-	"github.com/yildizozan/gandalf/cmd/config"
+	config "github.com/yildizozan/gandalf/cmd/config/v2"
 	"net/http"
+	"strings"
 )
 
 func analyseHeaders(rules *config.Header, header *http.Header, c chan bool) {
-
-	for k, v := range *header {
+	for k, _ := range *header {
 		for rk, _ := range *rules {
-			if k == rk {
-				//fmt.Println("k:", k, "v:", v, "rk:", rk, "rv:", rv)
-			}
-			//fmt.Println("k:", k, "v:", v, "rk:", rk, "rv:", rv)
-		}
-		fmt.Println("k:", k, "v:", v)
-		if k == "Accept-Encoding" {
-			for idx, vv := range v {
-				fmt.Println(idx, vv)
+			if strings.ToLower(k) == strings.ToLower(rk) {
+				c <- true
+				return
 			}
 		}
 	}

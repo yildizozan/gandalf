@@ -1,14 +1,12 @@
-package main
+package fasthttp
 
 import (
-	"bufio"
+	"fmt"
+	"github.com/spf13/viper"
 	"github.com/valyala/fasthttp"
-	"github.com/yildizozan/gandalf/cmd/log"
+	"github.com/yildizozan/gandalf/cmd/logger"
 	"github.com/yildizozan/gandalf/cmd/metrics"
-	"os"
 )
-
-var rules []string
 
 var proxyClient = &fasthttp.HostClient{
 	Addr: "localhost:3000",
@@ -52,23 +50,7 @@ func postprocessResponse(resp *fasthttp.Response) {
 	// alter other response data if needed
 }
 
-func main() {
-
-	file, err := os.Open("rules.txt")
-	if err != nil {
-		log.Log("%s", err)
-	}
-	defer file.Close()
-
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		rules = append(rules, scanner.Text())
-	}
-	log.Log("%d rules loaded!", len(rules))
-
-	if err := scanner.Err(); err != nil {
-		panic(err)
-	}
+func Start() {
 
 	// Metrics
 	metrics.Init()
@@ -85,7 +67,8 @@ func main() {
 		ConnState: cw.OnStateChangeForFastHttp,
 		Handler:   requestHandler,
 	}
-	if err := server.ListenAndServe(":8080"); err != nil {
-		log.Error("error in fasthttp server: %s", err)
+	addr := fmt.Sprintf(":%d", viper.GetInt("port"))
+	if err := server.ListenAndServe(addr); err != nil {
+		logger.Error("error in fasthttp server: %s", err)
 	}
 }

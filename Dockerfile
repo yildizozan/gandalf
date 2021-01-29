@@ -15,10 +15,7 @@ COPY . .
 RUN go get -d -v ./...
 
 # Build the application
-RUN go build -o /go/bin/gandalf cmd/fasthttp/fasthttp.go
-
-RUN ls -lah /go/bin/
-RUN ls -lah /go/src/github.com/yildizozan/gandalf/entrypoint.sh
+RUN go build -o /go/bin/gandalf
 
 # Build a small image
 #FROM gcr.io/distroless/base
@@ -27,9 +24,5 @@ FROM alpine
 COPY --from=builder /go/bin/gandalf /
 COPY --from=builder /go/src/github.com/yildizozan/gandalf/entrypoint.sh /
 
-#RUN ["chmod", "+x", "/usr/src/app/entrypoint.sh"]
-RUN ls -lah /
-
 # Command to run
-#ENTRYPOINT ["/entrypoint.sh"]
-CMD ["/gandalf"]
+ENTRYPOINT [ "/gandalf" ]
